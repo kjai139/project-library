@@ -1,0 +1,38 @@
+:root {
+    --uiBg: #a7f3d0;
+    --fontColor: white;
+    --uiFont: font-family: 'Poppins', sans-serif;
+    --contentCont: font-family: 'Noto Sans', sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    
+}
+
+.fixedContainer {
+    display:flex;
+}
+
+.fixedUi {
+    padding: 0;
+}
+
+.fixedLogo, .fixedUi > li {
+    justify-content: center;
+    align-items: center;
+}
+
+li > p, .fixedLogo > p {
+    margin: 0;
+}
+
+.fixedLogo, .fixedUi, .fixedUi > li {
+    display:flex;
+    margin: 0;
+}
+
