@@ -1,8 +1,10 @@
 :root {
     --uiBg: #a7f3d0;
     --fontColor: white;
-    --uiFont: font-family: 'Poppins', sans-serif;
-    --contentCont: font-family: 'Noto Sans', sans-serif;
+    --uiFont: 'Poppins', sans-serif;
+    --contentCont: 'Noto Sans', sans-serif;
+
+    --bgColor: #f1f5f9;
 }
 
 * {
@@ -11,18 +13,36 @@
 
 html, body {
     margin: 0;
+    background-color: var(--bgColor);
     
 }
 
 .fixedContainer {
+    font-family: var(--uiFont);
+    display:flex;
+    justify-content: space-between;
+    background: var(--uiBg);
+    height: 40px;
+    padding: 15px;
+}
+.fixedContainer > a {
     display:flex;
 }
 
 .fixedUi {
+    gap: 40px;
     padding: 0;
 }
 
-.fixedLogo, .fixedUi > li {
+.fixedUi > a, .fixedContainer > a {
+    text-decoration: none;
+    color: inherit;
+    
+    
+}
+
+.fixedLogo, .fixedUi > a {
+    display:flex;
     justify-content: center;
     align-items: center;
 }
@@ -31,8 +51,10 @@ li > p, .fixedLogo > p {
     margin: 0;
 }
 
-.fixedLogo, .fixedUi, .fixedUi > li {
+.fixedLogo, .fixedUi, .fixedUi > a > li {
     display:flex;
     margin: 0;
+
+    list-style-type: none;
 }
 
