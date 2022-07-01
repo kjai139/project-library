@@ -2,7 +2,7 @@
     --uiBg: #a7f3d0;
     --fontColor: white;
     --uiFont: 'Poppins', sans-serif;
-    --contentCont: 'Noto Sans', sans-serif;
+    --contentFont: 'Noto Sans', sans-serif;
 
     --bgColor: #f1f5f9;
 }
@@ -14,6 +14,10 @@
 html, body {
     margin: 0;
     background-color: var(--bgColor);
+    display:flex;
+    flex-grow: 1;
+
+    width: 100%;
     
 }
 
@@ -24,6 +28,11 @@ html, body {
     background: var(--uiBg);
     height: 40px;
     padding: 15px;
+
+    flex-grow: 1;
+
+    position: fixed;
+    width:100%;
 }
 .fixedContainer > a {
     display:flex;
@@ -32,6 +41,7 @@ html, body {
 .fixedUi {
     gap: 40px;
     padding: 0;
+    align-items: center;
 }
 
 .fixedUi > a, .fixedContainer > a {
@@ -41,7 +51,29 @@ html, body {
     
 }
 
-.fixedLogo, .fixedUi > a {
+.fixedUi > button {
+    display:flex;
+    justify-content: center;
+    align-items: center;
+
+    width: fit-content;
+    height: fit-content;
+    border: 0;
+    padding: 0;
+
+    background-color: inherit;
+    font-family: inherit;
+    font-size: inherit;
+
+    cursor: pointer;
+    
+}
+
+.fixedUi > button:active {
+    transform: scale(1.1);
+}
+
+.fixedLogo, .fixedUi > a, .fixedUi > button > li {
     display:flex;
     justify-content: center;
     align-items: center;
@@ -58,3 +90,49 @@ li > p, .fixedLogo > p {
     list-style-type: none;
 }
 
+.cardContainer {
+    border: 1px solid black;
+    border-radius: 8px;
+    margin: 40px 50px 50px 50px;
+
+    display:grid;
+    gap: 8px;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    grid-template-rows: 1fr 1fr;
+    width:100%;
+
+    padding: 40px;
+    background-color: transparent;
+    
+}
+
+.contentContainer {
+    display:flex;
+    margin-top: 40px;
+    width: 100%;
+    
+}
+
+.card {
+    padding: 10px;
+    margin: 0;
+    border: 1px solid black;
+    display:flex;
+    flex-direction: column;
+    width:160px;
+
+    justify-content: center;
+    align-items: center;
+    
+}
+
+.card > p {
+    font-family: var(--contentFont);
+    font-size: 10px;
+    font-weight: bold;
+}
+
+.cardCover {
+    height:160px;
+    width: 120px;
+}
