@@ -99,15 +99,36 @@ li > p, .fixedLogo > p {
     gap: 8px;
     grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
     grid-template-rows: 1fr 1fr;
-    width:100%;
+    
 
     padding: 40px;
     background-color: transparent;
     
 }
 
+.addContainer {
+    border: 1px solid black;
+    margin: 40px;
+    border-radius: 8px;
+    padding: 40px;
+
+    
+}
+
+.addContainer > form {
+    display:flex;
+    flex-direction: column;
+    gap:10px;
+}
+
+form > div {
+    display:flex;
+    gap:10px;
+}
+
 .contentContainer {
     display:flex;
+    flex-direction: column;
     margin-top: 40px;
     width: 100%;
     
@@ -136,3 +157,6 @@ li > p, .fixedLogo > p {
     height:160px;
     width: 120px;
 }
+
+
+
