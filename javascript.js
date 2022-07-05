@@ -11,15 +11,36 @@ function book(title, cover, read, pages) {
 let addBookToLibrary = (...book) => {
     book.forEach(element => {
         myLibrary.push(book)
+        console.log(element)
     });
+    console.log('library:', myLibrary)
     
 }
+
+let markRead = (event) => {
+    let marker = event.target
+    let parentDiv = marker.parentElement.parentElement
+    if (marker.checked){
+        
+        parentDiv.classList.add('read')
+
+    } else {
+        
+        parentDiv.classList.remove('read')
+    }
+    
+}
+
+
 
 //function to make cards
 
 let createCards = () => {
+    cardContainer.textContent = ''
+    
+
     for (let x = 0; x < myLibrary.length; x++) {
-        console.log(myLibrary[x][x].cover)
+        console.log('COVER:', myLibrary[x][0].cover)
         
         let newCard = document.createElement('div')
         newCard.classList.add('card')
@@ -27,20 +48,24 @@ let createCards = () => {
 
         let newImage = document.createElement('img')
         newImage.classList.add('cardCover')
-        if (myLibrary[x][x].cover != null) {
-            newImage.setAttribute('src', `${myLibrary[x][x].cover}`)
-        } else if (myLibrary[x][x].cover == null) {
-            newImage.setAttribute('src', 'images/covers/nocover.jpeg')
+        if (myLibrary[x][0].cover != null) {
+            newImage.setAttribute('src', `${myLibrary[x][0].cover}`)
+        } else if (myLibrary[x][0].cover == null) {
+            newImage.setAttribute('src', 'images/covers/nocover.jpg')
         } 
         newCard.appendChild(newImage)
 
         let newTitle = document.createElement('p')
-        newTitle.textContent = `${myLibrary[x][x].title}`
+        newTitle.textContent = `${myLibrary[x][0].title}`
         newCard.appendChild(newTitle)
 
         //let checkboxDiv = document.createElement('div')
         //checkboxDiv.classList.add('checkboxDiv')
         //newCard.appendChild(checkboxDiv)
+
+        let newPages = document.createElement('p')
+        newPages.classList.add('pagesTxt')
+        newPages.textContent = `${myLibrary[x][0].pages}`
 
         let newCheckboxLabel = document.createElement('label')
         newCheckboxLabel.classList.add('labels')
@@ -52,7 +77,14 @@ let createCards = () => {
         newCheckbox.classList.add('checkbox')
         newCheckbox.setAttribute('id', `checkbox${x}`)
         newCheckbox.setAttribute('type', 'checkbox')
+        if (`${myLibrary[x][0].read}` == 'yes'){
+            newCheckbox.checked = true;
+            newCard.classList.add('read')
+        }
         newCheckboxLabel.appendChild(newCheckbox)
+        newCheckbox.addEventListener('change', markRead)
+
+        //remove btn
 
         let removeBtn = document.createElement('button')
         removeBtn.classList.add(`removeBtn${x}`)
@@ -67,6 +99,66 @@ let createCards = () => {
         
 
     }
+}
+
+//submit func
+
+
+
+let addBook = (event) => {
+    event.preventDefault()
+    console.log('submitted')
+
+    //grab form 
+    let formEl = document.forms.addBookForm
+    let formData = new FormData(formEl)
+
+    let bookTitle = formData.get('bookTitle')
+    console.log(bookTitle)
+    let newBook = new book(`${bookTitle}`)
+
+    let bookRead = formData.get('yes_no')
+    console.log(bookRead)
+
+    //let bookCover = formData.get('cover')
+    //let bookCover = document.querySelector('#cover').files[0]
+    //console.log('bookcover:', bookCover)
+
+    //create obj url
+    let coverObj = URL.createObjectURL(formData.get('cover'))
+    
+    newBook.cover = coverObj
+  
+    
+
+    console.log('cover obj', coverObj)
+
+    
+   
+
+    let bookPages = formData.get('bookPages')
+    console.log(bookPages)
+
+    
+
+    if (bookRead == null){
+        newBook.read = 'no'
+    } else {
+        newBook.read = bookRead
+    }
+    
+    
+    if (bookPages == null){
+        newBook.pages = 'unknown' 
+    } else {
+        newBook.pages = bookPages
+    }
+
+    addBookToLibrary(newBook)
+    createCards()
+    
+    
+
 }
 
 //add new book function
@@ -86,6 +178,7 @@ newBook.addEventListener('click', () => {
 
     let newForm = document.createElement('form')
     newForm.setAttribute('method', 'post')
+    newForm.setAttribute('id' , 'addBookForm')
     newForm.classList.add('addForm')
     addNew.appendChild(newForm)
 
@@ -107,7 +200,7 @@ newBook.addEventListener('click', () => {
     newDiv.appendChild(newInput)
 
 
-    // read
+    // read status
 
     let newDiv2 = document.createElement('div')
     newForm.appendChild(newDiv2)
@@ -199,28 +292,33 @@ newBook.addEventListener('click', () => {
     
     newForm.appendChild(submitDiv)
     submitDiv.appendChild(submitBtn)
+    
 
+    let addForm = document.querySelector('.addForm')
+    addForm.addEventListener('submit', addBook)
+    
+    
     
 })
 
-//submit func
 
-let addForm = document.querySelector('.addForm')
-
-let addBook = (event) => {
-    const form = event.target
-    console.log(event, form)
-
-}
 
 
 
 let harryPotter = new book('Mushoku Tensei', 'images/covers/mushoku1.jpg')
+harryPotter.read = 'yes'
 let overLord = new book('Overlord', 'images/covers/overlord1.jpg')
 
-addBookToLibrary(harryPotter, overLord)
+addBookToLibrary(harryPotter)
+addBookToLibrary(overLord)
+
+console.log('mylibary', myLibrary)
 
 createCards()
+
+let myCollection = document.querySelector('#myCollectionBtn')
+
+myCollection.addEventListener('click', createCards)
 
 
 
