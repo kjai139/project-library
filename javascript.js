@@ -203,6 +203,16 @@ newBook.addEventListener('click', () => {
     
 })
 
+//submit func
+
+let addForm = document.querySelector('.addForm')
+
+let addBook = (event) => {
+    const form = event.target
+    console.log(event, form)
+
+}
+
 
 
 let harryPotter = new book('Mushoku Tensei', 'images/covers/mushoku1.jpg')
@@ -220,3 +230,4 @@ myLibrary.forEach(element => {
     
     
 });
+
