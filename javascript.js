@@ -20,15 +20,32 @@ let addBookToLibrary = (...book) => {
 let markRead = (event) => {
     let marker = event.target
     let parentDiv = marker.parentElement.parentElement
+    let id = event.target.getAttribute('id').slice(-1)
+    console.log('markerid', id)
     if (marker.checked){
-        
+        myLibrary[id][0].read = 'yes'
+        console.log('mylibrary read', myLibrary[id][0], myLibrary[id][0].read)
         parentDiv.classList.add('read')
 
     } else {
-        
+        myLibrary[id][0].read = 'no'
+        console.log('mylibrary read', myLibrary[id][0], myLibrary[id][0].read)
         parentDiv.classList.remove('read')
     }
     
+}
+
+//funct to remove card
+
+let removeCards = (event) => {
+    let id = event.target.getAttribute('id').slice(-1)
+    console.log(id)
+
+    let getDiv = document.querySelector(`#card${id}`)
+    getDiv.remove()
+
+    myLibrary.splice(id, 1)
+    console.log('after library', myLibrary)
 }
 
 
@@ -36,6 +53,7 @@ let markRead = (event) => {
 //function to make cards
 
 let createCards = () => {
+    console.log('create card lib', myLibrary)
     cardContainer.textContent = ''
     
 
@@ -56,6 +74,7 @@ let createCards = () => {
         newCard.appendChild(newImage)
 
         let newTitle = document.createElement('p')
+        newTitle.classList.add('bookTitle')
         newTitle.textContent = `${myLibrary[x][0].title}`
         newCard.appendChild(newTitle)
 
@@ -65,10 +84,19 @@ let createCards = () => {
 
         let newPages = document.createElement('p')
         newPages.classList.add('pagesTxt')
-        newPages.textContent = `${myLibrary[x][0].pages}`
+        if (myLibrary[x][0].pages != null){
+            newPages.textContent = `${myLibrary[x][0].pages} Pages`
+            
+        } else {
+            newPages.textContent = `Unknown Pages`
+            newPages.classList.add('hidden')
+        }
+        newCard.appendChild(newPages)
+        
 
         let newCheckboxLabel = document.createElement('label')
         newCheckboxLabel.classList.add('labels')
+        newCheckboxLabel.setAttribute('id', `label${x}`)
         newCheckboxLabel.textContent = 'Read'
         newCard.appendChild(newCheckboxLabel)
 
@@ -87,16 +115,22 @@ let createCards = () => {
         //remove btn
 
         let removeBtn = document.createElement('button')
-        removeBtn.classList.add(`removeBtn${x}`)
+        removeBtn.classList.add('removeBtns')
+        removeBtn.setAttribute('id', `removeBtn${x}`)
         removeBtn.textContent = 'Remove Book'
+
+        removeBtn.addEventListener('click', removeCards)
+
         newCard.appendChild(removeBtn)
+
+
 
 
         
 
         cardContainer.appendChild(newCard)
 
-        
+        console.log('my library after create card', myLibrary)
 
     }
 }
@@ -138,7 +172,7 @@ let addBook = (event) => {
 
     let bookPages = formData.get('bookPages')
     console.log(bookPages)
-
+  
     
 
     if (bookRead == null){
@@ -148,7 +182,7 @@ let addBook = (event) => {
     }
     
     
-    if (bookPages == null){
+    if (bookPages == ''){
         newBook.pages = 'unknown' 
     } else {
         newBook.pages = bookPages
@@ -156,10 +190,16 @@ let addBook = (event) => {
 
     addBookToLibrary(newBook)
     createCards()
+
+    let addContainer = document.querySelector('.addContainer')
+    addContainer.textContent = ''
+    addContainer.removeAttribute('class')
     
     
 
 }
+
+
 
 //add new book function
 
@@ -307,10 +347,13 @@ newBook.addEventListener('click', () => {
 
 let harryPotter = new book('Mushoku Tensei', 'images/covers/mushoku1.jpg')
 harryPotter.read = 'yes'
+harryPotter.pages = '232'
 let overLord = new book('Overlord', 'images/covers/overlord1.jpg')
+let tbate = new book('The Beginning After The End', 'images/covers/tbate1.jpg')
 
 addBookToLibrary(harryPotter)
 addBookToLibrary(overLord)
+addBookToLibrary(tbate)
 
 console.log('mylibary', myLibrary)
 
