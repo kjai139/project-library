@@ -26,15 +26,15 @@ class Library {
         let marker = event.target
         let parentDiv = marker.parentElement.parentElement
         let id = event.target.getAttribute('id').slice(-1)
-        console.log('markerid', id)
+        
         if (marker.checked){
-            myLibrary[id][0].read = 'yes'
-            console.log('mylibrary read', myLibrary[id][0], myLibrary[id][0].read)
+            this.myLibrary[id][0].read = 'yes'
+           
             parentDiv.classList.add('read')
     
         } else {
-            myLibrary[id][0].read = 'no'
-            console.log('mylibrary read', myLibrary[id][0], myLibrary[id][0].read)
+            this.myLibrary[id][0].read = 'no'
+           
             parentDiv.classList.remove('read')
         }
         
@@ -45,7 +45,7 @@ class Library {
 
     removeCards = (event) => {
         let id = event.target.getAttribute('id').slice(-1)
-        console.log(id)
+        
     
         let getDiv = document.querySelector(`#card${id}`)
         getDiv.remove()
@@ -135,22 +135,22 @@ class Library {
     }
     addBookBtn = (event) => {
         event.preventDefault()
-        console.log('submitted')
+       
     
         //grab form 
         let formEl = document.forms.addBookForm
         let formData = new FormData(formEl)
     
         let bookTitle = formData.get('bookTitle')
-        console.log(bookTitle)
+        
         let newBook = new library1.Books(`${bookTitle}`)
     
         let bookRead = formData.get('yes_no')
-        console.log(bookRead)
+       
     
         //let bookCover = formData.get('cover')
         //let bookCover = document.querySelector('#cover').files[0]
-        //console.log('bookcover:', bookCover)
+        
     
         //create obj url
         let coverObj = URL.createObjectURL(formData.get('cover'))
@@ -159,13 +159,13 @@ class Library {
       
         
     
-        console.log('cover obj', coverObj)
+       
     
         
        
     
         let bookPages = formData.get('bookPages')
-        console.log(bookPages)
+        
       
         
     
