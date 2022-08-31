@@ -11,6 +11,16 @@
     visibility: hidden;
 }
 
+label + div {
+    display:flex;
+    flex-direction: column;
+}
+
+.errorMsg {
+    font-size: 12px;
+    color: red;
+}
+
 * {
     box-sizing: border-box;
 }
