@@ -134,8 +134,8 @@ class Library {
         }
     }
     addBookBtn = (event) => {
-        event.preventDefault()
-       
+        
+        
     
         //grab form 
         let formEl = document.forms.addBookForm
@@ -229,12 +229,23 @@ newBook.addEventListener('click', () => {
     newLabel.textContent = 'Book Title'
     newDiv.appendChild(newLabel)
 
+    let newInputDiv = document.createElement('div')
+
     let newInput = document.createElement('input')
     newInput.setAttribute('type', 'text')
     newInput.setAttribute('id', 'bookTitle')
     newInput.setAttribute('name', 'bookTitle')
     newInput.setAttribute('required', 'yes')
-    newDiv.appendChild(newInput)
+    newDiv.appendChild(newInputDiv)
+    newInputDiv.appendChild(newInput)
+
+    let titleError = document.createElement('span')
+    titleError.classList.add('hidden')
+    titleError.classList.add('errorMsg')
+    titleError.setAttribute('id', 'titleError')
+
+
+    newInputDiv.appendChild(titleError)
 
 
     // read status
@@ -289,16 +300,24 @@ newBook.addEventListener('click', () => {
     imgLabel.setAttribute('for', 'cover')
     imgLabel.textContent = 'Select Image'
 
+    let imgInputDiv = document.createElement('div')
+
     let imgInput = document.createElement('input')
     imgInput.setAttribute('type', 'file')
     imgInput.setAttribute('id', 'cover')
     imgInput.setAttribute('name', 'cover')
     imgInput.setAttribute('accept', 'iamges/*')
 
-    
+    let imgError = document.createElement('span')
+    imgError.setAttribute('id', 'imgError')
+    imgError.classList.add('hidden')
+    imgError.classList.add('errorMsg')
+
+    imgInputDiv.appendChild(imgInput)
+    imgInputDiv.appendChild(imgError)
 
     imgDiv.appendChild(imgLabel)
-    imgDiv.appendChild(imgInput)
+    imgDiv.appendChild(imgInputDiv)
     
 
     //pages
@@ -312,13 +331,23 @@ newBook.addEventListener('click', () => {
 
     pageDiv.appendChild(pageLabel)
 
+    let pageInputDiv = document.createElement('div')
+
     let pageInp = document.createElement('input')
     pageInp.setAttribute('type', 'number')
     pageInp.setAttribute('id', 'bookPages')
     pageInp.setAttribute('name', 'bookPages')
     pageInp.setAttribute('min' , '1')
 
-    pageDiv.appendChild(pageInp)
+
+    let pageError = document.createElement('span')
+    pageError.classList.add('hidden')
+    pageError.classList.add('errorMsg')
+    pageError.setAttribute('id', 'pageError')
+
+    pageInputDiv.appendChild(pageInp)
+    pageInputDiv.appendChild(pageError)
+    pageDiv.appendChild(pageInputDiv)
 
     //submit
 
@@ -332,7 +361,7 @@ newBook.addEventListener('click', () => {
     
 
     let addForm = document.querySelector('.addForm')
-    addForm.addEventListener('submit', library1.addBookBtn)
+    submitBtn.addEventListener('click', validateForm)
 
 
 
@@ -351,5 +380,58 @@ myCollection.addEventListener('click', library1.createCards)
 
 
 
+const validateForm = (e) => {
+    e.preventDefault()
+    
 
+
+    let addBookForm = document.querySelector('#addBookForm')
+    addBookForm.noValidate = true
+    let bookTitle = document.querySelector('#bookTitle')
+    let ImgUpload = document.querySelector('#cover')
+    let bookPages = document.querySelector('#bookPages')
+
+    let titleError = document.querySelector('#titleError')
+    let imgError = document.querySelector('#imgError')
+    let pageError = document.querySelector('#pageError')
+
+    if (bookTitle.value == ''){
+        titleError.textContent = 'Please enter a book name'
+        titleError.classList.remove('hidden')
+    } else {
+
+        bookTitle.classList.add('valid')
+        titleError.classList.add('hidden')
+    }
+    
+    if (ImgUpload.value != ''){
+        ImgUpload.classList.add('valid')
+    } else {
+        imgError.textContent = 'Please upload a cover'
+        imgError.classList.remove('hidden')
+    }
+
+    if (bookPages.value == ''){
+        pageError.textContent  = 'Please enter a number'
+        pageError.classList.remove('hidden')
+    } else {
+        if (isNaN(bookPages.value) != false){
+            console.log(isNaN(bookPages.value))
+            pageError.textContent = 'Please enter a numeric value'
+            pageError.classList.remove('hidden')
+        } else {
+            bookPages.classList.add('valid')
+        }
+    }
+
+
+    if (bookTitle.classList.contains('valid') && bookPages.classList.contains('valid') && ImgUpload.classList.contains('valid')){
+        library1.addBookBtn()
+    }
+
+    console.log(bookTitle)
+
+    console.log(addBookForm)
+    
+}
 
